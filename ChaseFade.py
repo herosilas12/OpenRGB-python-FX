@@ -11,6 +11,7 @@ DEBUG = False
 def UserInput():
     Color1 = Color2 = Colors = ReversedDevice = OnlySet = Zones = None
     Speed = 50
+    Delay = 1
     for arg in sys.argv:
         if arg == '--C1':
             Pos = sys.argv.index(arg) + 1
@@ -70,9 +71,11 @@ def UserInput():
                             Zones += [Z]
         elif arg == '--speed':
             Speed = int(sys.argv[(sys.argv.index(arg) + 1)])
+        elif arg == '--delay':
+            Delay = int(sys.argv[(sys.argv.index(arg) + 1)])
         else:
             pass
-    return(Color1, Color2, Colors, Speed, ReversedDevice, OnlySet, Zones)
+    return(Color1, Color2, Colors, Speed, Delay, ReversedDevice, OnlySet, Zones)
 
 def SetStatic(Dlist):
     """A quick function I use to make sure that everything is in direct or static mode"""
@@ -92,7 +95,7 @@ def Debug(Output):
     if DEBUG:
         print(Output)
 
-def InfiniteCycle(Colors, Zone, Passes, Speed):
+def InfiniteCycle(Colors, Zone, Passes, Speed, Delay):
     RunThrough = 0
     FadeCount = 5 * Passes
     ColorFades = []
@@ -155,13 +158,15 @@ def InfiniteCycle(Colors, Zone, Passes, Speed):
                     ColorFadeIndex += 1
                 else:
                     ColorFadeIndex = 0
-                time.sleep(1)
+                if Delay != 0:
+                    time.sleep(Delay)
         elif ZOType == ZoneType.MATRIX:
             pass
             #print('matrix support not done yet')
 
 if __name__ == '__main__':
-    C1, C2, Colors, Speed, Reversed, Enabled, Zones = UserInput()
+    Debug(client.devices)
+    C1, C2, Colors, Speed, Delay, Reversed, Enabled, Zones = UserInput()
     if Colors == None:
         Colors = []
         if C1 == None:
@@ -186,6 +191,7 @@ if __name__ == '__main__':
     SetStatic(Enable)
 
     for Device in Enable:
+        Debug(Device.zones)
         ReverseBool = False
         if Reversed != None:
             for R in Reversed:
@@ -199,8 +205,7 @@ if __name__ == '__main__':
                 setattr(zone, 'index', -6)
                 setattr(zone, 'length', len(zone.leds))
                 setattr(zone, 'reverse', ReverseBool)
-                LEDAmount = len(zone.leds) # the amount of leds in a zone
-                Thread = threading.Thread(target=InfiniteCycle, args=(Colors, zone, Passes, Speed), daemon=True)
+                Thread = threading.Thread(target=InfiniteCycle, args=(Colors, zone, Passes, Speed, Delay), daemon=True)
                 Thread.start()
 
     Thread.join()

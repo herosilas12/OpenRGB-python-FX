@@ -52,6 +52,7 @@ Effect (left to right), Flag (top to bottom)
 |C2         | No     | No        | Yes   | Yes        | No   | No    | Yes       | No   | No           | No  | No                    | No        |
 |Colors     | No     | No        | No    | Yes        | No   | No    | No        | No   | No           | No  | No                    | No        |
 |Speed      | No     | Yes       | No    | Yes        | No   | No    | Yes       | No   | Yes          | No  | No                    | No        |
+|Delay      | No     | No        | No    | Yes        | No   | No    | No        | No   | No           | No  | No                    | No        |
 |Reversed   | No     | No        | Yes   | Yes        | No   | No    | Yes       | Yes  | Yes          | Yes | No                    | No        |
 |Only-Set   | No     | Yes       | Yes   | Yes        | Yes  | Yes   | Yes       | Yes  | Yes          | Yes | Yes                   | No        |
 |Only-Zones | No     | No        | No    | Yes        | No   | No    | No        | No   | No           | No  | No                    | No        |
@@ -63,6 +64,8 @@ Effect (left to right), Flag (top to bottom)
 * ``--colors``: An optional replacement for C1 and C2 on effects that support it when you want to use more than 2 colors. Usage is ``python file.py --colors "255 0 0, 0 255 0, 0 0 255"``
 
 * ``--speed``: Self explanitory, It is kinda hard to implement or I am lazy so it isn't in a lot of effects. Usage is ``python file.py --speed int`` (any number is fine but I haven't tested over 50)
+
+* ``--delay``: When an effect is between transitions or fades, set the number of seconds it should wait to start the next transition or fade. Usage is ``python file.py --delay int``
 
 * ``--reversed``: Reverses effects for specific devices. Usage is ``python file.py --reversed "example device"`` or ``python file.py --reversed "device 1 , device 2`` for multiple devices. seperate the devices by `` , ``(space comma space)
 
